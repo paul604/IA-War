@@ -17,6 +17,12 @@ module.exports = {
                 test: /src\/bots\/.*\.js$/,
                 loader: "eslint-loader"
             }
+        ],
+        loaders: [
+            {
+                test: /\.js$/,
+                loader: 'strict'
+            }
         ]
     },
     plugins: []

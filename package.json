@@ -19,6 +19,7 @@
   "devDependencies": {
     "eslint": "3.0.0",
     "eslint-loader": "^1.5.0",
+    "strict-loader": "^1.1.0",
     "webpack": "^1.13.2"
   },
   "dependencies": {

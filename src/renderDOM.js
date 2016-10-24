@@ -83,7 +83,7 @@ function render(state) {
         return function (player) {
             return h("tr.player", { class: { winner: winner }}, [
                 h("td", [player.name + " "]),
-                h("td", { style: { fontFamily: "FontAwesome" }}, [icons[player.currentAction] || ""]),
+                h("td", { style: { fontFamily: "FontAwesome", width: "1em" }}, [icons[player.currentAction] || ""]),
                 h("td", [h("span.team", { style: { "background-color": colors[player.team] }})]),
                 h("td.errors", [player.errors.length + " errors"])
             ]);

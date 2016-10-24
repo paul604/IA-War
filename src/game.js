@@ -173,6 +173,7 @@ var game = {
         }
 
         var players = ias
+            .map(function (ia) { return ia(mapSize); })
             .map(initPlayer)
             .map(playerDispatcher(exit, mapSize))
             .map(createTeamDispatcher(nbTeams));
@@ -208,7 +209,7 @@ var game = {
                     .map(p => ({ x: p.position.x, y: p.position.y }));
 
                 let action = protectIaMethod(bot, "action")
-                    ({ x: bot.position.x, y: bot.position.y }, state.mapSize, state.round, friendsPosition);
+                    ({ x: bot.position.x, y: bot.position.y }, state.round, friendsPosition);
 
                 action = action || {
                     action: "error",
