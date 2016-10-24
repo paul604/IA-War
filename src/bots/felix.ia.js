@@ -27,37 +27,30 @@ function iaGenerator(mapSize) {
             var dx = Math.random() - 0.5;
             var dy = Math.random() - 0.5;
 
-            switch(round % 3) {
-                case 0:
-                    var move = {
-                        action: "move",
-                        params: {
-                            dx: dx,
-                            dy: dy
-                        }
-                    };
-
-                    return move;
-
-                case 1:
-                    var ask = {
-                        action: "ask",
-                        params: "x"
-                    };
-
-                    return ask;
-
-                case 2:
-                    var teleport = {
-                        action: "teleport",
-                        params: {
-                            x: Math.round(Math.random() * mapSize),
-                            y: Math.round(Math.random() * mapSize)
-                        }
-                    };
-
-                    return teleport;
+            var move = {
+                action: "move",
+                params: {
+                    dx: dx,
+                    dy: dy
                 }
+            };
+
+            /** OU
+            var ask = {
+                action: "ask",
+                params: "x"
+            };
+
+            var teleport = {
+                action: "teleport",
+                params: {
+                    x: Math.round(Math.random() * mapSize),
+                    y: Math.round(Math.random() * mapSize)
+                }
+            };
+            */
+
+            return move;
         }
     };
 }
