@@ -22,7 +22,7 @@ La méthode principale que vous devrez implémenter ressemblera à ça :
 
 ```javascript
 {
-    action: function action(position, mapSize, round) {
+    action: function action(position, round) {
         //à vous de gérer la logique de décision
 
         return actionObject; //l'objet qui contient l'action que vous voulez exécuter
@@ -33,7 +33,6 @@ La méthode principale que vous devrez implémenter ressemblera à ça :
 A chaque appel de `action` sont passés en paramètres :
 
 - `position` `{Object}` votre position actuelle ;
-- `mapSize` `{Number}` la taille de la map ;
 - `round` `{Number}` le numéro du tour en cours.
 
 ### action `move`
