@@ -1,3 +1,17 @@
+function curry(fn) {
+    var arity = fn.length;
+    return function partial() {
+        var args = Array.prototype.slice.call(arguments, 0);
+        if (args.length >= arity) {
+            return fn.apply(null, args);
+        }
+        return function incomplete() {
+            var incompleteArgs = Array.prototype.slice.call(arguments, 0);
+            return partial.apply(null, args.concat(incompleteArgs));
+        }
+    };
+}
+
 function initPlayer(ia) {
     return {
         position: {
@@ -11,6 +25,10 @@ function initPlayer(ia) {
     };
 }
 
+function initIa(mapSize, ia) {
+    return ia(mapSize);
+}
+
 function dist(a, b) {
     return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
 }
@@ -22,33 +40,29 @@ function addError(player, error) {
     return player;
 }
 
-function playerDispatcher(exit, mapSize) {
-    return function dispatch(player) {
-        function getRanPos() {
-            return Math.round(Math.random() * (mapSize - 1));
-        }
+function dispatchInMap(exit, mapSize, player) {
+    function getRanPos() {
+        return Math.round(Math.random() * (mapSize - 1));
+    }
 
-        var pos = {
+    var pos = {
+        x: getRanPos(),
+        y: getRanPos()
+    }
+    while (dist(pos, exit) < mapSize / 4) {
+        pos = {
             x: getRanPos(),
             y: getRanPos()
         }
-        while (dist(pos, exit) < mapSize / 4) {
-            pos = {
-                x: getRanPos(),
-                y: getRanPos()
-            }
-        }
-        player.position = pos;
-        return player;
-    };
+    }
+    player.position = pos;
+    return player;
 }
 
-function createTeamDispatcher(nbTeams) {
-    return function dispatch(player, index) {
-        return Object.assign({}, player, {
-            team: index % nbTeams
-        });
-    };
+function dispatchInTeams(nbTeams, player, index) {
+    return Object.assign({}, player, {
+        team: index % nbTeams
+    });
 }
 
 function groupByTeam(teams, player) {
@@ -139,21 +153,19 @@ function execute({ action, params, subject, env }) {
     return fn(subject, params, env);
 }
 
-function stateChecker(mapSize) {
-    return function checkState(player) {
-        let newPosition = Object.assign({}, player.position);
-        let maxIndex = mapSize - 1;
+function checkState(mapSize, player) {
+    let newPosition = Object.assign({}, player.position);
+    let maxIndex = mapSize - 1;
 
-        newPosition.x = Math.max(Math.min(newPosition.x, maxIndex), 0);
-        newPosition.y = Math.max(Math.min(newPosition.y, maxIndex), 0);
+    newPosition.x = Math.max(Math.min(newPosition.x, maxIndex), 0);
+    newPosition.y = Math.max(Math.min(newPosition.y, maxIndex), 0);
 
-        if (newPosition.x !== player.position.x || newPosition.y !== player.position.y) {
-            addError(player, "[MOVE] out of bounds");
-        }
-        player.position = newPosition;
-
-        return player;
+    if (newPosition.x !== player.position.x || newPosition.y !== player.position.y) {
+        addError(player, "[MOVE] out of bounds");
     }
+    player.position = newPosition;
+
+    return player;
 }
 
 var game = {
@@ -173,11 +185,11 @@ var game = {
         }
 
         var players = ias
-            .map(function (ia) { return ia(mapSize); })
-            .map(initPlayer)
             .sort(function () { return 0.5 - Math.random() })
-            .map(playerDispatcher(exit, mapSize))
-            .map(createTeamDispatcher(nbTeams));
+            .map(curry(initIa)(mapSize))
+            .map(initPlayer)
+            .map(curry(dispatchInMap)(exit, mapSize))
+            .map(curry(dispatchInTeams)(nbTeams));
 
         var teams = players.reduce(groupByTeam, {});
 
@@ -225,7 +237,7 @@ var game = {
                };
             })
             .map(execute)
-            .map(stateChecker(state.mapSize));
+            .map(curry(checkState)(state.mapSize));
 
         var roundWinners = updatedPlayers
             .filter(isWinner(state.exit))
