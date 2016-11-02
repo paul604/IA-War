@@ -175,6 +175,7 @@ var game = {
         var players = ias
             .map(function (ia) { return ia(mapSize); })
             .map(initPlayer)
+            .sort(function () { return 0.5 - Math.random() })
             .map(playerDispatcher(exit, mapSize))
             .map(createTeamDispatcher(nbTeams));
 
