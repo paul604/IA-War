@@ -21,7 +21,7 @@ function initPlayer(ia) {
         name: ia.getName(),
         ia: ia,
         errors: [],
-        tpLeft: 2
+        tpLeft: 1
     };
 }
 

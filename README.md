@@ -79,7 +79,7 @@ Suite à ça le jeu vous répondra en appelant une méthode de votre IA. Suivant
 
 Vous pouvez vous téléporter à n'importe quel endroit de la map (à condition que ça soit dans les limites de la map bien sur). Pour cela, vous pouvez demander à faire l'action `teleport`. En paramètres, vous aurez à donner la position en `x` et `y` à laquelle vous voulez vous téléporter.
 
-⚠ Vous ne pourrez utiliser l'action `teleport` que 2 fois. Au delà chaque appel à `teleport` ne fera plus rien.
+⚠ Vous ne pourrez utiliser l'action `teleport` qu'une fois. Au delà chaque appel à `teleport` ne fera plus rien.
 
 Exemple : 
 
@@ -120,7 +120,7 @@ Dans tous les cas, une erreur va paralyser votre joueur pour le tour en cours.
 
 ## Wrapping up
 
-Vous trouverez un exemple d'IA (complétement stupide) à ce chemin `src/bots/felix.ia.js`. Inspirez vous en pour développer votre IA.
+Vous trouverez un exemple d'archi d'IA à ce chemin `src/bots/felix.ia.js`. Inspirez vous en pour développer votre IA.
 
 Vous pouvez ajouter autant d'IA que vous voudrez dans le repertoire `src/bots` ils seront ajoutés dans le jeux. En revanche, une seule de ces IA pourra jouer pour le match final.
 
