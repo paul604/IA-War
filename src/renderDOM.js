@@ -40,6 +40,9 @@ function render(state) {
     context.fillStyle = "#000";
     context.fillRect(state.exit.x * pixelSize, state.exit.y * pixelSize, pixelSize, pixelSize);
 
+    context.fillStyle = "#999";
+    state.walls.forEach(t => context.fillRect(t.x * pixelSize, t.y * pixelSize, pixelSize, pixelSize));
+
     state
         .players
         .forEach(function (bot) {

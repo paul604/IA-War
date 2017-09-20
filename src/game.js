@@ -40,19 +40,20 @@ function addError(player, error) {
     return player;
 }
 
-function dispatchInMap(exit, mapSize, player) {
-    function getRanPos() {
-        return Math.round(Math.random() * (mapSize - 1));
-    }
+function getRanPos(mapSize) {
+    return Math.round(Math.random() * (mapSize - 1));
+}
 
+
+function dispatchInMap(exit, mapSize, player) {
     var pos = {
-        x: getRanPos(),
-        y: getRanPos()
+        x: getRanPos(mapSize),
+        y: getRanPos(mapSize)
     }
     while (dist(pos, exit) < mapSize / 4) {
         pos = {
-            x: getRanPos(),
-            y: getRanPos()
+            x: getRanPos(mapSize),
+            y: getRanPos(mapSize)
         }
     }
     player.position = pos;
@@ -92,11 +93,18 @@ var actions = {
         if (moves.dx === undefined || moves.dy === undefined) {
             return addError(clone, "[MOVE] missing dx or dy param");
         }
+        const newPosition = { x: clone.position.x, y: clone.position.y };
+
         for (let i of ["x", "y"]) {
             if (moves["d" + i] !== 0) {
                 let newPos = clone.position[i] + (moves["d" + i] > 0 ? 1 : -1);
-                clone.position[i] = Math.round(newPos);
+                newPosition[i] = Math.round(newPos);
             }
+        }
+
+        let isOnWall = env.walls.filter(t => t.x == newPosition.x && t.y === newPosition.y).length > 0;
+        if (!isOnWall) {
+            clone.position = newPosition;
         }
 
         return clone;
@@ -168,6 +176,22 @@ function checkState(mapSize, player) {
     return player;
 }
 
+function dispatchWalls(mapSize, players, exit) {
+    const walls = Array.from(new Array(mapSize))
+        .map(function (t) {
+        let pos;
+        do {
+            pos = {
+                x: getRanPos(mapSize),
+                y: getRanPos(mapSize)
+            };
+        } while (dist(pos, exit) < mapSize / 4);
+        return pos;
+    });
+
+    return walls;
+}
+
 var game = {
     init: function (ias) {
         var nbTeams = [2, 3, 4].reduce((acc, val) => {
@@ -197,6 +221,7 @@ var game = {
             players: players,
             teams: teams,
             exit: exit,
+            walls: dispatchWalls(mapSize, players, exit),
             mapSize: mapSize,
             winners: [],
             winnersByTeam: {},
@@ -222,7 +247,7 @@ var game = {
                     .map(p => ({ x: p.position.x, y: p.position.y }));
 
                 let action = protectIaMethod(bot, "action")
-                    ({ x: bot.position.x, y: bot.position.y }, state.round, friendsPosition);
+                    ({ x: bot.position.x, y: bot.position.y }, state.round, state.walls, friendsPosition);
 
                 action = action || {
                     action: "error",
