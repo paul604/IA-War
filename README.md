@@ -6,6 +6,8 @@ Le principe du jeu est simple : **trouver la sortie** placée au hasard sur une 
 
 Les IAs seront affectées à des équipes au lancement du jeu. Le jeu s'arrête une fois que tous les joueurs d'une équipe ont trouvés la sortie
 
+Sur la map, se trouvent des bouts de murs qui vous empecherons d'avancer. Si vous tentez de vous déplacer sur un mur, l'action sera nulle et rien ne se passera.
+
 ## Déroulement du jeu
 
 A chaque tour, le jeu demandera à votre IA (et celles de tous les autres joueurs) ce qu'elle veut faire à ce tour.
@@ -22,7 +24,7 @@ La méthode principale que vous devrez implémenter ressemblera à ça :
 
 ```javascript
 {
-    action: function action(position, round) {
+    action: function action(position, round, walls) {
         //à vous de gérer la logique de décision
 
         return actionObject; //l'objet qui contient l'action que vous voulez exécuter
@@ -51,6 +53,7 @@ l'action move permet de vous déplacer sur la map. Voila l'objet que le jeu atte
 
 les paramètres `dx` et `dy` définissent si vous voulez vous déplacer dans le sens positif ou négatif selon l'axe x ou y. Le joueur ne peux que se déplacer que d'une case à la fois, donc mettre une valeur de `10` par exemple ne fera pas avancer plus votre joueur. Le jeu regarde uniquement si la valeur retournée est positive, négative ou nulle.
 
+Attention, si vous essayez de vous déplacer sur un mur, l'action de déplacement sera nulle et rien ne se passera.
 ### action `ask`
 
 Vous pouvez demander au jeu où vous vous trouvez par rapport à la sortie. Vous ne pouvez demander où vous êtes que selon un axe unique (`x` ou `y`)
