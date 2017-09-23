@@ -15,7 +15,7 @@ function iaGenerator(mapSize) {
         * @return {string}
         */
         getName: function getName() {
-            return "Paul";
+            return "Paul ligne";
         },
 
         /**
@@ -109,13 +109,18 @@ function iaGenerator(mapSize) {
           var action ={};
           switch (choix){
             case "move":
-              var resultMove = move(mapSize, position, map, x, y);
-              if(resultMove.x !== 0 && resultMove.y !== 0){
-                decalx=42;
-                decaly=42;
+              if(out && teleport){
+                x=outx-position.x;
+                y=outy-position.y;
+              }else{
+                var resultMove = move(mapSize, position, map, x, y);
+                if(resultMove.x !== 0 && resultMove.y !== 0){
+                  decalx=42;
+                  decaly=42;
+                }
+                x=resultMove.x;
+                y=resultMove.y;
               }
-              x=resultMove.x;
-              y=resultMove.y;
               action = {
                 action: "move",
                 params: {
@@ -131,6 +136,13 @@ function iaGenerator(mapSize) {
               break;
             case "teleport":
               teleport=true;
+              var positionOut ={
+                x: outx,
+                y: outy
+              };
+              var resultMove = move(mapSize, positionOut, map, x, y);
+              x=positionOut.x+resultMove.x;
+              y=positionOut.y+resultMove.y;
               action = {
                 action: "teleport",
                 params: {
@@ -208,7 +220,6 @@ function choixMouve(x, y){
   }else {
     return {x:0 ,y:0};
   }
-
 }
 
 module.exports = iaGenerator;

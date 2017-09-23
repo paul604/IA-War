@@ -25,7 +25,6 @@ function iaGenerator(mapSize) {
             out=true;
             outx=exit.x;
             outy=exit.y;
-            console.log(exit);
         },
 
         /**
@@ -39,7 +38,6 @@ function iaGenerator(mapSize) {
             //1 je suis trop à gauche
             //-1 je suis trop à droite
             //0 je suis en face de la sortie
-            console.log(hPosition);
         },
 
         /**
@@ -53,7 +51,6 @@ function iaGenerator(mapSize) {
             //1 je suis trop bas
             //-1 je suis trop haut
             //0 je suis en face de la sortie
-            console.log(vPosition);
         },
 
         /**
@@ -84,6 +81,10 @@ function iaGenerator(mapSize) {
           var action ={};
           switch (choix){
             case "move":
+              if(out && teleport){
+                x=outx-position.x;
+                y=outy-position.y;
+              }
               action = {
                 action: "move",
                 params: {
@@ -99,6 +100,13 @@ function iaGenerator(mapSize) {
               break;
             case "teleport":
               teleport=true;
+              var positionOut ={
+                x: outx,
+                y: outy
+              };
+              var resultMove = move(mapSize, positionOut, map, x, y);
+              x=positionOut.x+resultMove.x;
+              y=positionOut.y+resultMove.y;
               action = {
                 action: "teleport",
                 params: {
@@ -110,6 +118,72 @@ function iaGenerator(mapSize) {
             return action;
         }
     };
+}
+
+//---------------------------------------------------------------------------
+
+function saveWall(walls, mapSize) {
+  var map = new Array(mapSize);
+
+  for (var i in walls) {
+    var wall = walls[i];
+    var mapx = map[wall.x];
+    if(! (mapx instanceof Array)){
+      mapx=new Array(mapSize);
+    }
+    mapx[wall.y]=1;
+    map[wall.x]=mapx;
+  }
+  return map;
+}
+
+function move(mapSize, position, map, moveX, moveY) {
+  var testok=false;
+  for (var i = 0; i < 8 && !testok; i++) {
+    testok=testMove(mapSize, position, map, moveX, moveY);
+    if(!testok){
+      var tabMove = choixMouve(moveX, moveY);
+      moveX=tabMove.x;
+      moveY=tabMove.y;
+    }
+  }
+  return {x:moveX, y:moveY};
+}
+
+function testMove(mapSize, position, map, moveX, moveY) {
+  var testx=position.x+moveX;
+  var testy=position.y+moveY;
+  if (testx<0 || testx>=mapSize || testy<0 || testy>=mapSize ) {
+    return false;
+  }
+  if(map[testx] instanceof Array){
+    if(map[testx][testy] === 1){
+      return false;
+    }
+  }
+  return true;
+}
+
+function choixMouve(x, y){
+  if(x === 0 && y ===-1){//haut
+    return  {x:1 ,y:y};
+  }else if(x === 1 && y === -1){//hd
+    return  {x:x ,y:0};
+  }else if(x === 1 && y === 0){//d
+    return  {x:x ,y:1};
+  }else if(x === 1 && y === 1){//bd
+    return  {x:0 ,y:y};
+  }else if(x === 0 && y === 1){//b
+    return  {x:-1 ,y:y};
+  }else if(y === 1){//bg
+    return  {x:x ,y:0};
+  }else if(y === 0){//g
+    return  {x:x ,y:-1};
+  }else if(y === -1){//hg
+    return  {x:0 ,y:-1};
+  }else {
+    return {x:0 ,y:0};
+  }
 }
 
 module.exports = iaGenerator;

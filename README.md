@@ -163,4 +163,4 @@ Pour tester votre IA, vous n'aurez qu'à lancer le jeu en ouvrant le fichier `in
 Pseudo | Contribution
 :---:|:---:
 [atomrc](https://github.com/atomrc) | Créateur  
-[paul604](https://github.com/paul604) | Bot: [paul](src/bots/paul.js) - [paul0](src/bots/paul0.js) - [paul00](src/bots/paul00.js) - [teleport](src/bots/teleport.js)
+[paul604](https://github.com/paul604) | Bot: [paul](src/bots/paul.js) - [paul_ligne](src/bots/paul_ligne.js) - [paul_diago](src/bots/paul_diago.js) - [teleport](src/bots/teleport.js)
