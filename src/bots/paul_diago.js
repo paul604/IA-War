@@ -94,13 +94,6 @@ function iaGenerator(mapSize) {
             choix = "move";
             x=decalx;
             y=decaly;
-            if (decalx != 0 && decaly != 0) {
-              decaly=42;
-              decalx=42;
-            }
-            // if(decaly != 0 && decalx === 0){
-            //   decaly=42;
-            // }
           }
 
 
