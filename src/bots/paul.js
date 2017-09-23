@@ -5,6 +5,7 @@ function iaGenerator(mapSize) {
         var outy;
         var decalx=42;
         var decaly=42;
+        var map;
     return {
 
 
@@ -69,7 +70,11 @@ function iaGenerator(mapSize) {
         * @param {number} round - le numéro de tour en cours
         * @return {object} action - l'action à effectuer
         */
-        action: function action(position, round, w) {
+        action: function action(position, round, walls) {
+          console.log("action");
+          if (round === 0) {
+            map = saveWall(walls, mapSize);
+          }
           var x=0;
           var y=0;
           var choix = "";
@@ -108,6 +113,15 @@ function iaGenerator(mapSize) {
           var action ={};
           switch (choix){
             case "move":
+              console.log(move);
+              var resultMove = move(mapSize, position, map, x, y);
+              if(resultMove.x !== 0 && resultMove.y !== 0){
+                decalx=42;
+                decaly=42;
+              }
+              x=resultMove.x;
+              y=resultMove.y;
+              console.log(x+"  "+y);
               action = {
                 action: "move",
                 params: {
@@ -123,6 +137,7 @@ function iaGenerator(mapSize) {
               break;
             case "teleport":
               teleport=true;
+              
               action = {
                 action: "teleport",
                 params: {
@@ -138,10 +153,25 @@ function iaGenerator(mapSize) {
 
 //---------------------------------------------------------------------------
 
-function move(mapSize, position, moveX, moveY) {
+function saveWall(walls, mapSize) {
+  var map = new Array(mapSize);
+
+  for (var i in walls) {
+    var wall = walls[i];
+    var mapx = map[wall.x];
+    if(! (mapx instanceof Array)){
+      mapx=new Array(mapSize);
+    }
+    mapx[wall.y]=1;
+    map[wall.x]=mapx;
+  }
+  return map;
+}
+
+function move(mapSize, position, map, moveX, moveY) {
   var testok=false;
   for (var i = 0; i < 8 && !testok; i++) {
-    testok=testMove(mapSize, position, moveX, moveY);
+    testok=testMove(mapSize, position, map, moveX, moveY);
     if(!testok){
       var tabMove = choixMouve(moveX, moveY);
       moveX=tabMove.x;
@@ -151,12 +181,18 @@ function move(mapSize, position, moveX, moveY) {
   return {x:moveX, y:moveY};
 }
 
-function testMove(mapSize, position, moveX, moveY) {
+function testMove(mapSize, position, map, moveX, moveY) {
   var testx=position.x+moveX;
   var testy=position.y+moveY;
-  if (testx<=0 || testx>mapSize-1 || testy<=0 || testy>mapSize-1) {
+  if (testx<0 || testx>=mapSize || testy<0 || testy>=mapSize ) {
     return false;
   }
+  if(map[testx] instanceof Array){
+    if(map[testx][testy] === 1){
+      return false;
+    }
+  }
+  return true;
 }
 
 function choixMouve(x, y){
