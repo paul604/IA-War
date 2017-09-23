@@ -87,20 +87,14 @@ function iaGenerator(mapSize) {
           }else if(decalx===42){
             choix = "ask";
             ask="x";
-          }else if(decaly === 42){
+            decaly=0;
+          }else if(decalx === 0 && decaly === 42){
             choix = "ask";
             ask="y";
           }else {
             choix = "move";
             x=decalx;
             y=decaly;
-            if (decalx != 0 && decaly != 0) {
-              decaly=42;
-              decalx=42;
-            }
-            // if(decaly != 0 && decalx === 0){
-            //   decaly=42;
-            // }
           }
 
 
@@ -113,8 +107,11 @@ function iaGenerator(mapSize) {
                 y=outy-position.y;
               }else{
                 var resultMove = move(mapSize, position, map, x, y);
-                if(resultMove.x !== 0 && resultMove.y !== 0){
+                if(resultMove.x !== 0 ){
                   decalx=42;
+                  // decaly=42; && resultMove.y !== 0
+                }
+                if(resultMove.x === 0){
                   decaly=42;
                 }
                 x=resultMove.x;
