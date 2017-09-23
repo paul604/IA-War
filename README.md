@@ -1,4 +1,4 @@
-Créer par @atomrc.
+Créer par [atomrc](https://github.com/atomrc).
 
 # IA War
 
