@@ -3,6 +3,7 @@ function iaGenerator(mapSize) {
         var out = false;
         var outx;
         var outy;
+        var map;
     return {
 
 
