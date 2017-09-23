@@ -28,6 +28,7 @@ function iaGenerator(mapSize) {
             out=true;
             outx=exit.x;
             outy=exit.y;
+            console.log(exit);
         },
 
         /**
@@ -83,9 +84,7 @@ function iaGenerator(mapSize) {
           }else if(out && teleport){
             choix = "move";
             x=1;
-          }
-
-          if(decalx===42){
+          }else if(decalx===42){
             choix = "ask";
             ask="x";
           }else if(decaly === 42){
