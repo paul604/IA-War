@@ -131,6 +131,8 @@ Vous pouvez ajouter autant d'IA que vous voudrez dans le repertoire `src/bots` i
 
 ## Les main dans le code
 
+⚠ nécessite Node.js
+
 ### Installation
 
 Vous aurez besoin de quelques outils avant de pouvoir commencer à coder votre IA. Pour les installer, jouer simplement :
