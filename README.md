@@ -160,7 +160,7 @@ Pour tester votre IA, vous n'aurez qu'à lancer le jeu en ouvrant le fichier `in
 ### Amusez vous, entraidez vous
 
 ## Contributeur
-Pseudo | Contribution
-:---:|:---:
-[atomrc](https://github.com/atomrc) | Créateur  
-[paul604](https://github.com/paul604) | Bot: [paul](src/bots/paul.js) - [paul_ligne](src/bots/paul_ligne.js) - [paul_diago](src/bots/paul_diago.js) - [teleport](src/bots/teleport.js)
+Pseudo | Contribution | Licence
+:---:|:---:|:---:
+[atomrc](https://github.com/atomrc) | Créateur | [Licence](Licence)
+[paul604](https://github.com/paul604) | Bot: [paul](src/bots/paul.js) - [paul_ligne](src/bots/paul_ligne.js) - [paul_diago](src/bots/paul_diago.js) - [teleport](src/bots/teleport.js) | [Licence.paul.md](Licence.paul.md)
