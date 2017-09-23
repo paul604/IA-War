@@ -1,4 +1,6 @@
-#IA War
+Créer par @atomrc.
+
+# IA War
 
 L'idée est de créer une IA qui va se battre contre tous les autres IA des autres joueurs.
 
@@ -12,7 +14,7 @@ Sur la map, se trouvent des bouts de murs qui vous empecherons d'avancer. Si vou
 
 A chaque tour, le jeu demandera à votre IA (et celles de tous les autres joueurs) ce qu'elle veut faire à ce tour.
 
-Votre IA pourra répondre l'une de ces deux actions : 
+Votre IA pourra répondre l'une de ces deux actions :
 
 - `move`
 - `ask`
@@ -58,7 +60,7 @@ Attention, si vous essayez de vous déplacer sur un mur, l'action de déplacemen
 
 Vous pouvez demander au jeu où vous vous trouvez par rapport à la sortie. Vous ne pouvez demander où vous êtes que selon un axe unique (`x` ou `y`)
 
-Pour demander où vous êtes par rapport à la sortie, voila l'objet que le jeu attendra : 
+Pour demander où vous êtes par rapport à la sortie, voila l'objet que le jeu attendra :
 
 ```javascript
 {
@@ -84,7 +86,7 @@ Vous pouvez vous téléporter à n'importe quel endroit de la map (à condition 
 
 ⚠ Vous ne pourrez utiliser l'action `teleport` qu'une fois. Au delà chaque appel à `teleport` ne fera plus rien.
 
-Exemple : 
+Exemple :
 
 ```javascript
 {
@@ -98,10 +100,10 @@ Exemple :
 
 ## Soyez à l'écoute
 
-Petite astuce, quand l'une des IA de votre équipe trouve la sortie, toutes les autres IA de l'équipe sont avertie de la position de la sortie. 
-Concrètement, quand l'un de vos alliés gagne, le jeu appel la méthode `onFriendWins` de votre IA. C'est donc à vous de stocker cette information pour tous rusher vers la sortie et ainsi faire gagner l'équipe. 
+Petite astuce, quand l'une des IA de votre équipe trouve la sortie, toutes les autres IA de l'équipe sont avertie de la position de la sortie.
+Concrètement, quand l'un de vos alliés gagne, le jeu appel la méthode `onFriendWins` de votre IA. C'est donc à vous de stocker cette information pour tous rusher vers la sortie et ainsi faire gagner l'équipe.
 
-un exemple d'implémentation serait : 
+un exemple d'implémentation serait :
 
 ```javascript
 {
@@ -113,7 +115,7 @@ un exemple d'implémentation serait :
 
 ## Attention aux erreurs
 
-Le jeu compte les erreurs que vous faites. Parmis les erreurs, le jeu compte : 
+Le jeu compte les erreurs que vous faites. Parmis les erreurs, le jeu compte :
 
 - les exceptions qui sont jettées par votre code ;
 - les actions appelées avec les mauvais paramètres (par exemple un appel à `teleport` sans paramètre `x`) ;
@@ -154,3 +156,9 @@ qui compilera automatiquement les sources dès qu'il y a un changement dessus.
 Pour tester votre IA, vous n'aurez qu'à lancer le jeu en ouvrant le fichier `index.html` à la racine du projet.
 
 ### Amusez vous, entraidez vous
+
+## Contributeur
+Pseudo | Contribution
+:---:|:---:
+[atomrc](https://github.com/atomrc) | Créateur  
+[paul604](https://github.com/paul604) | Bot: [paul](src/bots/paul.js) - [paul0](src/bots/paul0.js) - [paul00](src/bots/paul00.js) - [teleport](src/bots/teleport.js)
