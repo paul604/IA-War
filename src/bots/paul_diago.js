@@ -139,7 +139,7 @@ function iaGenerator(mapSize) {
                 x: outx,
                 y: outy
               };
-              var resultMove = move(mapSize, positionOut, map, x, y);
+              var resultMove = move(mapSize, positionOut, map, 1, 0);
               x=positionOut.x+resultMove.x;
               y=positionOut.y+resultMove.y;
               action = {

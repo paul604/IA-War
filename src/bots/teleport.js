@@ -63,18 +63,18 @@ function iaGenerator(mapSize) {
         * @param {number} round - le numéro de tour en cours
         * @return {object} action - l'action à effectuer
         */
-        action: function action(position, round, w) {
+        action: function action(position, round, walls) {
+          if (round === 0) {
+            map = saveWall(walls, mapSize);
+          }
           var x=0;
           var y=0;
           var choix = "";
 
           if(out && !teleport){
             choix = "teleport";
-            x=outx-1;
-            y=outy;
           }else if(out && teleport){
             choix = "move";
-            x=1;
           }
 
 
@@ -105,7 +105,7 @@ function iaGenerator(mapSize) {
                 x: outx,
                 y: outy
               };
-              var resultMove = move(mapSize, positionOut, map, x, y);
+              var resultMove = move(mapSize, positionOut, map, 1, 0);
               x=positionOut.x+resultMove.x;
               y=positionOut.y+resultMove.y;
               action = {

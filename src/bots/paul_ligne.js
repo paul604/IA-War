@@ -79,11 +79,8 @@ function iaGenerator(mapSize) {
 
           if(out && !teleport){
             choix = "teleport";
-            x=outx-1;
-            y=outy;
           }else if(out && teleport){
             choix = "move";
-            x=1;
           }else if(decalx===42){
             choix = "ask";
             ask="x";
@@ -136,7 +133,7 @@ function iaGenerator(mapSize) {
                 x: outx,
                 y: outy
               };
-              var resultMove = move(mapSize, positionOut, map, x, y);
+              var resultMove = move(mapSize, positionOut, map, 1, 0);
               x=positionOut.x+resultMove.x;
               y=positionOut.y+resultMove.y;
               action = {
