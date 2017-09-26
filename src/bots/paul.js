@@ -174,7 +174,7 @@ function saveWall(walls, mapSize) {
   return localMap;
 }
 
-function initMouvChoice() {
+function initMouvChoice(mouvChoice) {
     mouvChoice = new Map();
     mouvChoice.set(0,{x:0, y:-1});
     mouvChoice.set(1,{x:1, y:-1});
@@ -186,9 +186,19 @@ function initMouvChoice() {
     mouvChoice.set(7,{x:-1, y:-1});
 }
 
+function getMouvChoice(x, y) {
+    for (var [key, valeur] of mouvChoice) {
+        if(valeur.x === x && valeur.y === y){
+            return key;
+        }
+    }
+    return NaN;
+}
+
 function move(mapSize, position, map, moveX, moveY) {
   if(!testMove(mapSize, position, map, moveX, moveY)){
-      var tabMove = choixMouve(moveX, moveY);
+    //   var tabMove = choixMouve(moveX, moveY);
+      var tabMove = choixMouve(getMouvChoice(moveX, moveY), 1);
       moveX=tabMove.x;
       moveY=tabMove.y;
       return move(mapSize, position, map, moveX, moveY)
@@ -205,26 +215,26 @@ function testMove(mapSize, position, map, moveX, moveY) {
   return true;
 }
 
-function choixMouve(x, y){
-  if(x === 0 && y ===-1){//haut
-    return  {x:1 ,y:y};
-  }else if(x === 1 && y === -1){//hd
-    return  {x:x ,y:0};
-  }else if(x === 1 && y === 0){//d
-    return  {x:x ,y:1};
-  }else if(x === 1 && y === 1){//bd
-    return  {x:0 ,y:y};
-  }else if(x === 0 && y === 1){//b
-    return  {x:-1 ,y:y};
-  }else if(y === 1){//bg
-    return  {x:x ,y:0};
-  }else if(y === 0){//g
-    return  {x:x ,y:-1};
-  }else if(y === -1){//hg
-    return  {x:0 ,y:-1};
-  }else {
-    return {x:0 ,y:0};
-  }
+function choixMouve(choice, count){
+  // if(x === 0 && y ===-1){//haut
+  //   return  {x:1 ,y:y};
+  // }else if(x === 1 && y === -1){//hd
+  //   return  {x:x ,y:0};
+  // }else if(x === 1 && y === 0){//d
+  //   return  {x:x ,y:1};
+  // }else if(x === 1 && y === 1){//bd
+  //   return  {x:0 ,y:y};
+  // }else if(x === 0 && y === 1){//b
+  //   return  {x:-1 ,y:y};
+  // }else if(y === 1){//bg
+  //   return  {x:x ,y:0};
+  // }else if(y === 0){//g
+  //   return  {x:x ,y:-1};
+  // }else if(y === -1){//hg
+  //   return  {x:0 ,y:-1};
+  // }else {
+  //   return {x:0 ,y:0};
+  // }
 }
 
 module.exports = iaGenerator;
