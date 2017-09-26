@@ -6,6 +6,7 @@ function iaGenerator(mapSize) {
         var decalx=42;
         var decaly=42;
         var map;
+        var mouvChoice;
     return {
 
 
@@ -74,7 +75,7 @@ function iaGenerator(mapSize) {
           console.log("action");
           if (round === 0) {
             map = saveWall(walls, mapSize);
-            initMouvChoice();
+            mouvChoice = initMouvChoice();
           }
           var x=0;
           var y=0;
@@ -174,7 +175,15 @@ function saveWall(walls, mapSize) {
 }
 
 function initMouvChoice() {
-
+    mouvChoice = new Map();
+    mouvChoice.set(0,{x:0, y:-1});
+    mouvChoice.set(1,{x:1, y:-1});
+    mouvChoice.set(2,{x:1, y:0});
+    mouvChoice.set(3,{x:1, y:1});
+    mouvChoice.set(4,{x:0, y:1});
+    mouvChoice.set(5,{x:-1, y:1});
+    mouvChoice.set(6,{x:-1, y:0});
+    mouvChoice.set(7,{x:-1, y:-1});
 }
 
 function move(mapSize, position, map, moveX, moveY) {
