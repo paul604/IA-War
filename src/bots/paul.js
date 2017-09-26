@@ -74,6 +74,7 @@ function iaGenerator(mapSize) {
           console.log("action");
           if (round === 0) {
             map = saveWall(walls, mapSize);
+            initMouvChoice();
           }
           var x=0;
           var y=0;
@@ -165,11 +166,15 @@ function saveWall(walls, mapSize) {
       }
   }
 
-  for (var i in walls) {
-    var wall = walls[i];
+    // init wall
+  for (var wall of walls) {
     localMap[wall.x][wall.y]=1;
   }
   return localMap;
+}
+
+function initMouvChoice() {
+
 }
 
 function move(mapSize, position, map, moveX, moveY) {
