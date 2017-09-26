@@ -100,7 +100,7 @@ function iaGenerator(mapSize) {
 
           var action ={};
           var resultMove;
-          
+
           switch (choix){
             case "move":
               console.log(move);
@@ -170,14 +170,11 @@ function saveWall(walls, mapSize) {
 }
 
 function move(mapSize, position, map, moveX, moveY) {
-  var testok=false;
-  for (var i = 0; i < 8 && !testok; i++) {
-    testok=testMove(mapSize, position, map, moveX, moveY);
-    if(!testok){
+  if(!testMove(mapSize, position, map, moveX, moveY)){
       var tabMove = choixMouve(moveX, moveY);
       moveX=tabMove.x;
       moveY=tabMove.y;
-    }
+      return move(mapSize, position, map, moveX, moveY)
   }
   return {x:moveX, y:moveY};
 }
