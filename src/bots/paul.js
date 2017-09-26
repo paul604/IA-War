@@ -1,18 +1,24 @@
+//Paul ORHON
 function iaGenerator(mapSize) {
     return {
         teleport: false,
-        out : false,
-        outx: null,
-        outy: null,
+        out : false,//onFriendWins ok
+        outx: null,// out x
+        outy: null,// out y
         decalx:42,
         decaly: 42,
-        map: null,
-        mouvChoice: null,
+        map: null,// tab of map
+        movChoice: null,// tab for mov
 
 
         //---------------------------------------------------------------------------
 
-        saveWall: function saveWall(walls, mapSize) {
+        /**
+        * saveWall - param la map avec 1 pour les murs
+        *
+        * @return {Array}
+        */
+        saveWall: function saveWall(walls) {
             this.map = new Array(mapSize);
 
             //init map
@@ -29,21 +35,31 @@ function iaGenerator(mapSize) {
             }
         },
 
-        initMouvChoice: function initMouvChoice() {
-            this.mouvChoice = new Array();
-            this.mouvChoice[0]={x:0, y:-1};
-            this.mouvChoice[1] ={x:1, y:-1};
-            this.mouvChoice[2] ={x:1, y:0};
-            this.mouvChoice[3] ={x:1, y:1};
-            this.mouvChoice[4] ={x:0, y:1};
-            this.mouvChoice[5] ={x:-1, y:1};
-            this.mouvChoice[6] ={x:-1, y:0};
-            this.mouvChoice[7] ={x:-1, y:-1};
+        /**
+        * initMovChoice - init la liste des movement posible
+        *
+        * @return {void}
+        */
+        initMovChoice: function initMovChoice() {
+            this.movChoice = new Array();
+            this.movChoice[0]={x:0, y:-1};
+            this.movChoice[1] ={x:1, y:-1};
+            this.movChoice[2] ={x:1, y:0};
+            this.movChoice[3] ={x:1, y:1};
+            this.movChoice[4] ={x:0, y:1};
+            this.movChoice[5] ={x:-1, y:1};
+            this.movChoice[6] ={x:-1, y:0};
+            this.movChoice[7] ={x:-1, y:-1};
         },
 
-        getMouvChoice: function getMouvChoice(x, y) {
+        /**
+        * getMovChoice - retourne l'index corespondant dans movChoice
+        *
+        * @return {int}
+        */
+        getMovChoice: function getMovChoice(x, y) {
             var indexOk;
-            this.mouvChoice.forEach(function (element, index) {
+            this.movChoice.forEach(function (element, index) {
                 if(element.x === x && element.y === y){
                     indexOk= index;
                     return indexOk;
@@ -52,21 +68,26 @@ function iaGenerator(mapSize) {
             return indexOk;
         },
 
-        choixMouve: function choixMouve(choice, nbMouv){
+        /**
+        * choixMove - choisie le mouvement suivant
+        *
+        * @return {int, int}
+        */
+        choixMove: function choixMove(choice, nbMov){
             var i;
-            if(nbMouv===2){
+            if(nbMov===2){
                 i=-1;
-            }else if(nbMouv===3){
+            }else if(nbMov===3){
                 i=1;
-            }else if(nbMouv===4){
+            }else if(nbMov===4){
                 i=-2;
-            }else if(nbMouv===5){
+            }else if(nbMov===5){
                 i=2;
-            }else if(nbMouv===6){
+            }else if(nbMov===6){
                 i=-3;
-            }else if(nbMouv===7){
+            }else if(nbMov===7){
                 i=3;
-            }else if(nbMouv===8){
+            }else if(nbMov===8){
                 i=-4;
             }
 
@@ -77,11 +98,16 @@ function iaGenerator(mapSize) {
                 index=index-8;
             }
 
-            console.log(choice+" "+nbMouv+" "+index);
-            return this.mouvChoice[index];
+            console.log(choice+" "+nbMov+" "+index);
+            return this.movChoice[index];
         },
 
-        testMove: function testMove(mapSize, position, moveX, moveY) {
+        /**
+        * testMove - verifi si le mouvement est valide
+        *
+        * @return {boolean}
+        */
+        testMove: function testMove(position, moveX, moveY) {
             var testx=position.x+moveX;
             var testy=position.y+moveY;
             if (testx<0 || testx>=mapSize || testy<0 || testy>=mapSize || this.map[testx][testy] === 1) {
@@ -90,20 +116,26 @@ function iaGenerator(mapSize) {
             return true;
         },
 
-        move: function move(mapSize, position, moveX, moveY, nbMouv, initx, inity) {
+
+        /**
+        * testMove - demande la verification du movement et en choisi un autre si il est imposible
+        *
+        * @return {boolean}
+        */
+        move: function move(position, moveX, moveY, nbMov, initx, inity) {
             if (initx == null) {
                 initx=moveX;
                 inity=moveY;
-                nbMouv=1;
+                nbMov=1;
             }
-            if(!this.testMove(mapSize, position, moveX, moveY)){
-            //   var tabMove = choixMouve(moveX, moveY);
-                nbMouv=nbMouv+1;
-                var tabMove = this.choixMouve(this.getMouvChoice(initx, inity), nbMouv);
+            if(!this.testMove(position, moveX, moveY)){
+            //   var tabMove = choixMove(moveX, moveY);
+                nbMov=nbMov+1;
+                var tabMove = this.choixMove(this.getMovChoice(initx, inity), nbMov);
                 console.logtabMove
                 moveX=tabMove.x;
                 moveY=tabMove.y;
-                return this.move(mapSize, position, moveX, moveY, nbMouv)
+                return this.move(position, moveX, moveY, nbMov)
             }
             return {x:moveX, y:moveY};
         },
@@ -176,8 +208,8 @@ function iaGenerator(mapSize) {
         action: function action(position, round, walls) {
           console.log("action");
           if (round === 0) {
-            this.saveWall(walls, mapSize);
-            this.initMouvChoice();
+            this.saveWall(walls);
+            this.initMovChoice();
           }
           var x=0;
           var y=0;
@@ -212,7 +244,7 @@ function iaGenerator(mapSize) {
                 x=this.outx-position.x;
                 y=this.outy-position.y;
               }else{
-                resultMove = this.move(mapSize, position, x, y, 0);
+                resultMove = this.move(position, x, y, 0);
                 if(resultMove.x !== 0 && resultMove.y !== 0){
                   this.decalx=42;
                   this.decaly=42;
@@ -240,7 +272,7 @@ function iaGenerator(mapSize) {
                 x: this.outx,
                 y: this.outy
               };
-              resultMove = this.move(mapSize, positionOut, 1, 0, 0);
+              resultMove = this.move(positionOut, 1, 0, 0);
               x=positionOut.x+resultMove.x;
               y=positionOut.y+resultMove.y;
               action = {
