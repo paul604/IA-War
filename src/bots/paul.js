@@ -120,7 +120,7 @@ function iaGenerator(mapSize) {
         /**
         * testMove - demande la verification du movement et en choisi un autre si il est imposible
         *
-        * @return {boolean}
+        * @return {int, int}
         */
         move: function move(position, moveX, moveY, nbMov, initx, inity) {
             if (initx == null) {
