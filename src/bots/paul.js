@@ -42,34 +42,43 @@ function iaGenerator(mapSize) {
         },
 
         getMouvChoice: function getMouvChoice(x, y) {
+            var indexOk;
             this.mouvChoice.forEach(function (element, index) {
                 if(element.x === x && element.y === y){
-                    return index;
+                    indexOk= index;
+                    return indexOk;
                 }
             });
-            return NaN;
+            return indexOk;
         },
 
-        choixMouve: function choixMouve(choice, count){
-          // if(x === 0 && y ===-1){//haut
-          //   return  {x:1 ,y:y};
-          // }else if(x === 1 && y === -1){//hd
-          //   return  {x:x ,y:0};
-          // }else if(x === 1 && y === 0){//d
-          //   return  {x:x ,y:1};
-          // }else if(x === 1 && y === 1){//bd
-          //   return  {x:0 ,y:y};
-          // }else if(x === 0 && y === 1){//b
-          //   return  {x:-1 ,y:y};
-          // }else if(y === 1){//bg
-          //   return  {x:x ,y:0};
-          // }else if(y === 0){//g
-          //   return  {x:x ,y:-1};
-          // }else if(y === -1){//hg
-          //   return  {x:0 ,y:-1};
-          // }else {
-          //   return {x:0 ,y:0};
-          // }
+        choixMouve: function choixMouve(choice, nbMouv){
+            var i;
+            if(nbMouv===2){
+                i=-1;
+            }else if(nbMouv===3){
+                i=1;
+            }else if(nbMouv===4){
+                i=-2;
+            }else if(nbMouv===5){
+                i=2;
+            }else if(nbMouv===6){
+                i=-3;
+            }else if(nbMouv===7){
+                i=3;
+            }else if(nbMouv===8){
+                i=-4;
+            }
+
+            var index = choice+i;
+            if(index<0){
+                index=index+8;
+            }else if(index>7){
+                index=index-8;
+            }
+
+            console.log(choice+" "+nbMouv+" "+index);
+            return this.mouvChoice[index];
         },
 
         testMove: function testMove(mapSize, position, moveX, moveY) {
@@ -81,13 +90,20 @@ function iaGenerator(mapSize) {
             return true;
         },
 
-        move: function move(mapSize, position, moveX, moveY) {
+        move: function move(mapSize, position, moveX, moveY, nbMouv, initx, inity) {
+            if (initx == null) {
+                initx=moveX;
+                inity=moveY;
+                nbMouv=1;
+            }
             if(!this.testMove(mapSize, position, moveX, moveY)){
             //   var tabMove = choixMouve(moveX, moveY);
-              var tabMove = this.choixMouve(this.getMouvChoice(moveX, moveY), 1);
-              moveX=tabMove.x;
-              moveY=tabMove.y;
-              return this.move(mapSize, position, moveX, moveY)
+                nbMouv=nbMouv+1;
+                var tabMove = this.choixMouve(this.getMouvChoice(initx, inity), nbMouv);
+                console.logtabMove
+                moveX=tabMove.x;
+                moveY=tabMove.y;
+                return this.move(mapSize, position, moveX, moveY, nbMouv)
             }
             return {x:moveX, y:moveY};
         },
@@ -196,7 +212,7 @@ function iaGenerator(mapSize) {
                 x=this.outx-position.x;
                 y=this.outy-position.y;
               }else{
-                resultMove = this.move(mapSize, position, x, y);
+                resultMove = this.move(mapSize, position, x, y, 0);
                 if(resultMove.x !== 0 && resultMove.y !== 0){
                   this.decalx=42;
                   this.decaly=42;
@@ -224,7 +240,7 @@ function iaGenerator(mapSize) {
                 x: this.outx,
                 y: this.outy
               };
-              resultMove = this.move(mapSize, positionOut, 1, 0);
+              resultMove = this.move(mapSize, positionOut, 1, 0, 0);
               x=positionOut.x+resultMove.x;
               y=positionOut.y+resultMove.y;
               action = {
