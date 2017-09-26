@@ -155,18 +155,21 @@ function iaGenerator(mapSize) {
 //---------------------------------------------------------------------------
 
 function saveWall(walls, mapSize) {
-  var map = new Array(mapSize);
+  var localMap = new Array(mapSize);
+
+  //init map
+  for (var x = 0; x < mapSize; x++) {
+      localMap[x]=new Array(mapSize);
+      for (var y = 0; y < mapSize; y++) {
+          localMap[x][y]=0
+      }
+  }
 
   for (var i in walls) {
     var wall = walls[i];
-    var mapx = map[wall.x];
-    if(! (mapx instanceof Array)){
-      mapx=new Array(mapSize);
-    }
-    mapx[wall.y]=1;
-    map[wall.x]=mapx;
+    localMap[wall.x][wall.y]=1;
   }
-  return map;
+  return localMap;
 }
 
 function move(mapSize, position, map, moveX, moveY) {
