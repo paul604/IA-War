@@ -185,13 +185,8 @@ function move(mapSize, position, map, moveX, moveY) {
 function testMove(mapSize, position, map, moveX, moveY) {
   var testx=position.x+moveX;
   var testy=position.y+moveY;
-  if (testx<0 || testx>=mapSize || testy<0 || testy>=mapSize ) {
+  if (testx<0 || testx>=mapSize || testy<0 || testy>=mapSize || map[testx][testy] === 1) {
     return false;
-  }
-  if(map[testx] instanceof Array){
-    if(map[testx][testy] === 1){
-      return false;
-    }
   }
   return true;
 }
