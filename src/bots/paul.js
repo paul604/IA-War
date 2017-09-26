@@ -99,6 +99,8 @@ function iaGenerator(mapSize) {
 
 
           var action ={};
+          var resultMove;
+          
           switch (choix){
             case "move":
               console.log(move);
@@ -106,7 +108,7 @@ function iaGenerator(mapSize) {
                 x=outx-position.x;
                 y=outy-position.y;
               }else{
-                var resultMove = move(mapSize, position, map, x, y);
+                resultMove = move(mapSize, position, map, x, y);
                 if(resultMove.x !== 0 && resultMove.y !== 0){
                   decalx=42;
                   decaly=42;
@@ -134,7 +136,7 @@ function iaGenerator(mapSize) {
                 x: outx,
                 y: outy
               };
-              var resultMove = move(mapSize, positionOut, map, 1, 0);
+              resultMove = move(mapSize, positionOut, map, 1, 0);
               x=positionOut.x+resultMove.x;
               y=positionOut.y+resultMove.y;
               action = {
